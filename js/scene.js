@@ -2,6 +2,7 @@
 (function () { //FLOUSURE: FUNCION ANONIMA QUE SE LLAMA A SI MISMA
     var objects = [];
     var airplane;
+    var keyboard = new THREEx.KeyboardState();
     let scene = new THREE.Scene(); //Creacion de la esena
     const aspectRatio = window.innerWidth / window.innerHeight;
     let camera = new THREE.PerspectiveCamera(85, aspectRatio, 0.1, 100); //Perspectiva de la camara
@@ -22,7 +23,6 @@
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //createPlane();
     this.mesh = new THREE.Object3D();
-    this.mesh2 = new THREE.Object3D();
 
     //cuerpo
     var cuerpoGeometria = new THREE.BoxGeometry(15, 4, 7);
@@ -74,28 +74,7 @@
     piramide3.position.z = 4;
     this.mesh.add(piramide3);
 
-
-    //Arboles
-    var grouplArboles = new THREE.Group();
-    for (var i = 0; i < 50; i++) {
-            var arbolesGeometria = new THREE.BoxGeometry(2, 5, 2);
-            var arboles = new THREE.Mesh(arbolesGeometria, color());
-
-            var geometry = new THREE.ConeGeometry( 2, 20, 32 );
-            var cone = new THREE.Mesh( geometry, color() );
-            arboles.position.x = Math.random() * 150 - 75;
-            arboles.position.z = Math.random() * 150 - 75;
-            cone.position.x = arboles.position.x;
-            cone.position.z = arboles.position.z;
-            cone.position.y = arboles.position.y;
-            grouplArboles.add(arboles);
-            grouplArboles.add(cone);
-        
-    }
-    this.mesh2.add(grouplArboles);
-
     scene.add(mesh);
-    scene.add(mesh2);
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     let planeGeometry = new THREE.PlaneGeometry(200, 900); //Creacion del plano y su tamano 
@@ -139,12 +118,38 @@
     function loop() {
         controls.update(); //Actualizacion de los controles de camara
         requestAnimationFrame(loop);
-        for (var i = 0, l = groupllantas.children.length; i < l; i++) {
-            var llantas = groupllantas.children[i];
-            llantas.rotation.z -= 0.009;
+
+        if ( keyboard.pressed("W") ){
+            mesh.position.x += 0.1;
+            for (var i = 0, l = groupllantas.children.length; i < l; i++) {
+                var llantas = groupllantas.children[i];
+                llantas.rotation.z -= 0.009;
+            }
         }
-        mesh.position.x += 0.1;
+        if ( keyboard.pressed("S") ){
+            mesh.position.x -= 0.1;
+            for (var i = 0, l = groupllantas.children.length; i < l; i++) {
+                var llantas = groupllantas.children[i];
+                llantas.rotation.z += 0.009;
+            }
+        }
+        if ( keyboard.pressed("A") ){
+            for (var i = 0, l = groupllantas.children.length; i < l; i++) {
+                var llantas = groupllantas.children[i];
+                llantas.rotation.y += 0.009;
+            }
+        }
+        if ( keyboard.pressed("D") ){
+            for (var i = 0, l = groupllantas.children.length; i < l; i++) {
+                var llantas = groupllantas.children[i];
+                llantas.rotation.y -= 0.009;
+            }
+        }
+		
+     //   mesh.position.x += 0.1;
+        //camera.lookAt(mesh.position);
         renderer.render(scene, camera);
+    
     }
     loop();
 })();
