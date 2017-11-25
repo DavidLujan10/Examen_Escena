@@ -76,8 +76,88 @@
     piramide3.position.z = 4;
     this.mesh.add(piramide3);
 
+let loader= new THREE.TextureLoader(); // permite activar el uso de las texturas
+  //pino 
+loader.load('img/hojas.jpg', function(texture){ 
+    var geometrycopa1 = new THREE.ConeBufferGeometry( 6, 5, 32 );
+    var geometrycopa2 = new THREE.ConeBufferGeometry( 5, 5, 32 );
+    var geometrycopa3 = new THREE.ConeBufferGeometry( 3, 5, 32 );
+    var materialpino = new THREE.MeshBasicMaterial( {map: texture} );
+    var copa1 = new THREE.Mesh( geometrycopa1, materialpino);
+    var copa2 = new THREE.Mesh( geometrycopa2, materialpino);
+    var copa3 = new THREE.Mesh( geometrycopa3, materialpino);
+    
+    copa1.position.y = 10;
+    copa2.position.y = 12;
+    copa3.position.y = 15;
+    copa1.position.x = -18;
+    copa2.position.x = -18;
+    copa3.position.x = -18;
+    scene.add(copa1);
+    scene.add(copa2);
+    scene.add(copa3);
+})
+//arbol
+loader.load('img/hojas.jpg', function(texture){  
+    var geometryarbol = new THREE.DodecahedronGeometry(7, 1);
+    var geometryarbol2 = new THREE.SphereGeometry (7, 10, 6, 0 ,6, 3, 3.4);
+    var materialarbol = new THREE.MeshBasicMaterial( {map: texture} );
+    var arbol = new THREE.Mesh( geometryarbol, materialarbol);
+    var arbol2 = new THREE.Mesh( geometryarbol, materialarbol);
+
+    arbol.position.y = 16;
+    arbol.position.x = 25;  
+    arbol2.position.y = 16;
+    arbol2.position.x = 26;  
+    scene.add(arbol);
+    scene.add(arbol2);
+})
+   
+   //tronco de pino
+    loader.load('img/tronco.jpg', function(texture){ 
+        var geometrytronco = new THREE.CylinderBufferGeometry( 1, 2, 10, 32 );
+        var materialtronco = new THREE.MeshBasicMaterial( { map: texture} );
+        var tronco = new THREE.Mesh( geometrytronco, materialtronco );
+        tronco.position.y = 6;
+        tronco.position.x = -18;
+        scene.add(tronco);
+    })
+
+    // tronco arbol
+    loader.load('img/tronco.jpg', function(texture){ 
+        var geometrytroncoarbol = new THREE.CylinderBufferGeometry( 1, 2, 20, 32 );
+        var materialtroncoarbol = new THREE.MeshBasicMaterial( {map: texture} );
+        var troncoarbol = new THREE.Mesh( geometrytroncoarbol, materialtroncoarbol );
+        troncoarbol.position.y = 7;
+        troncoarbol.position.x = 25;
+        scene.add(troncoarbol);
+    })
+
+    //nubes
+    loader.load('img/nube.jpg', function(texture){
+         //nube 1
+        var nubepequena =new THREE.SphereBufferGeometry( 3, 32, 32 );
+        var nubegrande = new THREE.SphereBufferGeometry( 4, 32, 32 );
+        var nubemediana = new THREE.SphereBufferGeometry( 3, 32, 32 );
+        var materialnube = new THREE.MeshBasicMaterial( {map: texture} );
+        var pequena= new THREE.Mesh( nubepequena, materialnube);
+        var grande= new THREE.Mesh(  nubegrande, materialnube);
+        var mediana= new THREE.Mesh( nubemediana, materialnube);
+        pequena.position.y = 28;
+        grande.position.y = 29;
+        mediana.position.y = 28;
+        pequena.position.x = -3;
+        grande.position.x = 2;
+        mediana.position.x = 7
+        scene.add(pequena);
+        scene.add(grande);
+        scene.add(mediana);
+      })
+
+  
     scene.add(mesh);
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
     let changeTexture = 0;
     document.body.onkeypress = function(){ // Detecta si se preciona una tecla
         if(changeTexture % 2 == 0){// La funcion se inicializa que obtiene el mod para cambiar entre varias
