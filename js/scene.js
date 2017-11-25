@@ -76,7 +76,25 @@
 
     scene.add(mesh);
     //////////////////////////////////////////////////////////////////////////////////////////////////////
+    let changeTexture = 0;
+    document.body.onkeypress = function(){ // Detecta si se preciona una tecla
+        if(changeTexture % 2 == 0){// La funcion se inicializa que obtiene el mod para cambiar entre varias
+                                    //texturas
+            texture = new THREE.TextureLoader().load('img/car1.jpg');
+        }else{
+            texture = new THREE.TextureLoader().load('img/car3.jpg');
+        }
+        //Los materiales se alternan al precionar una tecla y se vuelve a cargar las primitivas
+        cuerpo.material = new THREE.MeshBasicMaterial({map:texture});
+        cuerpo2.material = new THREE.MeshBasicMaterial({map:texture});
+        scene.material = new THREE.MeshBasicMaterial({map:texture});
+        piramide.material = new THREE.MeshBasicMaterial({map:texture});
+        piramide2.material = new THREE.MeshBasicMaterial({map:texture});
+        piramide3.material = new THREE.MeshBasicMaterial({map:texture});
+        renderer.render(scene,camera);
 
+        changeTexture += 1; // Se aumenta en uno para que se alterne.
+    }
     let planeGeometry = new THREE.PlaneGeometry(200, 900); //Creacion del plano y su tamano 
     let groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
     planeGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2)); //Matrix de 4 ejes
@@ -114,7 +132,7 @@
         console.log(groundMaterialFormas);
         return groundMaterialFormas;
     }
-
+    
     function loop() {
         controls.update(); //Actualizacion de los controles de camara
         requestAnimationFrame(loop);
