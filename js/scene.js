@@ -3,12 +3,14 @@
     var objects = [];
     var airplane;
     var keyboard = new THREEx.KeyboardState();
-    let scene = new THREE.Scene(); //Creacion de la esena
+    let scene = new THREE.Scene();//Creacion de la esena
+    scene.background = new THREE.TextureLoader().load( "img/otoño.jpg" );//agregar textura a la scene
+    
     const aspectRatio = window.innerWidth / window.innerHeight;
-    let camera = new THREE.PerspectiveCamera(85, aspectRatio, 0.1, 100); //Perspectiva de la camara
+    let camera = new THREE.PerspectiveCamera(100, aspectRatio, 0.1, 100); //Perspectiva de la camara
     let renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-
+   
     document.body.appendChild(renderer.domElement);
 
     var controls = new THREE.TrackballControls(camera);
@@ -95,8 +97,13 @@
 
         changeTexture += 1; // Se aumenta en uno para que se alterne.
     }
-    let planeGeometry = new THREE.PlaneGeometry(200, 900); //Creacion del plano y su tamano 
-    let groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    //se le agrega textura al plano y la imagen se repita en 4x4
+    var texture = new THREE.TextureLoader().load( "img/sesped.jpg" );
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( 4, 4 );
+    let planeGeometry = new THREE.PlaneGeometry(200, 200); //Creacion del plano y su tamano 
+    let groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map:texture });
     planeGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2)); //Matrix de 4 ejes
     let plane = new THREE.Mesh(planeGeometry, groundMaterial);
 
