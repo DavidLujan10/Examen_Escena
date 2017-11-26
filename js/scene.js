@@ -1,16 +1,13 @@
-
 (function () { //FLOUSURE: FUNCION ANONIMA QUE SE LLAMA A SI MISMA
-    var objects = [];
-    var airplane;
     var keyboard = new THREEx.KeyboardState();
-    let scene = new THREE.Scene();//Creacion de la esena
-    scene.background = new THREE.TextureLoader().load( "img/otoño.jpg" );//agregar textura a la scene
-    
+    var scene = new THREE.Scene();//Creacion de la esena
+    scene.background = new THREE.TextureLoader().load("img/otoño.jpg");//agregar textura a la scene
+
     const aspectRatio = window.innerWidth / window.innerHeight;
-    let camera = new THREE.PerspectiveCamera(100, aspectRatio, 0.1, 100); //Perspectiva de la camara
-    let renderer = new THREE.WebGLRenderer();
+    var camera = new THREE.PerspectiveCamera(100, aspectRatio, 0.1, 500); //Perspectiva de la camara
+    var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-   
+
     document.body.appendChild(renderer.domElement);
 
     var controls = new THREE.TrackballControls(camera);
@@ -22,26 +19,21 @@
     camera.position.z = 35; //PROFUNDIDAD CON LA QUE SE VIZUALISARA LA CAMARA
     camera.position.y = 5; //ALTURA DE LA CAMARA
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //createPlane();
-    this.mesh = new THREE.Object3D();
-
-    //cuerpo
+    this.meshAuto = new THREE.Object3D();
+    //CARRO//
+    //CuerpoAuto
     var cuerpoGeometria = new THREE.BoxGeometry(15, 4, 7);
     var cuerpo = new THREE.Mesh(cuerpoGeometria, color());
     cuerpo.position.y = 5;
     cuerpo.position.x = 4;
     cuerpo.position.z = 4;
-    this.mesh.add(cuerpo);
-
-    var cuerpo2Geometria = new THREE.BoxGeometry(4, 4, 4);
-    var cuerpo2 = new THREE.Mesh(cuerpo2Geometria, color());
-    cuerpo2.position.y = 8;
-    cuerpo2.position.x = 4;
-    cuerpo2.position.z = 4;
-    this.mesh.add(cuerpo2);
-
-    //llantas
+    //TechoAuto
+    var techoGeometria = new THREE.BoxGeometry(4, 4, 4);
+    var techo = new THREE.Mesh(techoGeometria, color());
+    techo.position.y = 8;
+    techo.position.x = 4;
+    techo.position.z = 4;
+    //LlantasAuto
     var groupllantas = new THREE.Group();
     for (var i = 0; i < 2; i++) {
         for (var j = 0; j < 2; j++) {
@@ -53,137 +45,149 @@
             groupllantas.add(llantas);
         }
     }
-    this.mesh.add(groupllantas);
+    //EspejoAuto
+    var espejoGeometria = new THREE.BoxGeometry(3, 2, 4);
+    var espejo = new THREE.Mesh(espejoGeometria, color());
+    espejo.position.y = 8;
+    espejo.position.x = 7.5;
+    espejo.position.z = 4;
+    //AleronAuto
+    var aleronGeometria = new THREE.BoxGeometry(1, 2, 5);
+    var aleron = new THREE.Mesh(aleronGeometria, color());
+    aleron.position.y = 9;
+    aleron.position.x = -3;
+    aleron.position.z = 4;
+    //ParachoquesAuto
+    var parachoquesGeometria = new THREE.BoxGeometry(1, 2, 5);
+    var parachoques = new THREE.Mesh(parachoquesGeometria, color());
+    parachoques.position.y = 5;
+    parachoques.position.x = 12;
+    parachoques.position.z = 4;
 
-    var piramideGeometria = new THREE.BoxGeometry(3, 2, 4);
-    var piramide = new THREE.Mesh(piramideGeometria, color());
-    piramide.position.y = 8;
-    piramide.position.x = 7.5;
-    piramide.position.z = 4;
-    this.mesh.add(piramide);
+    //Agregando los objetos a un solo mesh
+    meshAuto.add(cuerpo);
+    meshAuto.add(techo);
+    meshAuto.add(groupllantas);
+    meshAuto.add(espejo);
+    meshAuto.add(aleron);
+    meshAuto.add(parachoques);
 
-    var piramideGeometria2 = new THREE.BoxGeometry(1, 2, 5);
-    var piramide2 = new THREE.Mesh(piramideGeometria2, color());
-    piramide2.position.y = 9;
-    piramide2.position.x = -3;
-    piramide2.position.z = 4;
-    this.mesh.add(piramide2);
 
-    var piramideGeometria3 = new THREE.BoxGeometry(1, 2, 5);
-    var piramide3 = new THREE.Mesh(piramideGeometria3, color());
-    piramide3.position.y = 5;
-    piramide3.position.x = 12;
-    piramide3.position.z = 4;
-    this.mesh.add(piramide3);
 
-let loader= new THREE.TextureLoader(); // permite activar el uso de las texturas
-  //pino 
-loader.load('img/hojas.jpg', function(texture){ 
-    var geometrycopa1 = new THREE.ConeBufferGeometry( 6, 5, 32 );
-    var geometrycopa2 = new THREE.ConeBufferGeometry( 5, 5, 32 );
-    var geometrycopa3 = new THREE.ConeBufferGeometry( 3, 5, 32 );
-    var materialpino = new THREE.MeshBasicMaterial( {map: texture} );
-    var copa1 = new THREE.Mesh( geometrycopa1, materialpino);
-    var copa2 = new THREE.Mesh( geometrycopa2, materialpino);
-    var copa3 = new THREE.Mesh( geometrycopa3, materialpino);
-    
-    copa1.position.y = 10;
-    copa2.position.y = 12;
-    copa3.position.y = 15;
-    copa1.position.x = -18;
-    copa2.position.x = -18;
-    copa3.position.x = -18;
-    scene.add(copa1);
-    scene.add(copa2);
-    scene.add(copa3);
-})
-//arbol
-loader.load('img/hojas.jpg', function(texture){  
-    var geometryarbol = new THREE.DodecahedronGeometry(7, 1);
-    var geometryarbol2 = new THREE.SphereGeometry (7, 10, 6, 0 ,6, 3, 3.4);
-    var materialarbol = new THREE.MeshBasicMaterial( {map: texture} );
-    var arbol = new THREE.Mesh( geometryarbol, materialarbol);
-    var arbol2 = new THREE.Mesh( geometryarbol, materialarbol);
+    //TexturasArboles
+    let loader = new THREE.TextureLoader(); // permite activar el uso de las texturas
+    var hojas_texture = new THREE.TextureLoader().load("img/hojas.jpg");
+    var tronco_texture = new THREE.TextureLoader().load("img/tronco.jpg");
 
-    arbol.position.y = 16;
-    arbol.position.x = 25;  
-    arbol2.position.y = 16;
-    arbol2.position.x = 26;  
-    scene.add(arbol);
-    scene.add(arbol2);
-})
-   
-   //tronco de pino
-    loader.load('img/tronco.jpg', function(texture){ 
-        var geometrytronco = new THREE.CylinderBufferGeometry( 1, 2, 10, 32 );
-        var materialtronco = new THREE.MeshBasicMaterial( { map: texture} );
-        var tronco = new THREE.Mesh( geometrytronco, materialtronco );
+    this.meshArboles = new THREE.Object3D();
+    var groupArboles = new THREE.Group();
+    for (var i = 0; i < 100; i++) {
+        //TroncoPino
+        var geometrytronco = new THREE.CylinderBufferGeometry(1, 2, 10, 32);
+        var materialtronco = new THREE.MeshBasicMaterial({ map: tronco_texture });
+        var tronco = new THREE.Mesh(geometrytronco, materialtronco);
         tronco.position.y = 6;
-        tronco.position.x = -18;
-        scene.add(tronco);
-    })
+        tronco.position.x = Math.random() * 2000 - 1000;
+        tronco.position.z = Math.random() * 2000 - 1000;
 
-    // tronco arbol
-    loader.load('img/tronco.jpg', function(texture){ 
-        var geometrytroncoarbol = new THREE.CylinderBufferGeometry( 1, 2, 20, 32 );
-        var materialtroncoarbol = new THREE.MeshBasicMaterial( {map: texture} );
-        var troncoarbol = new THREE.Mesh( geometrytroncoarbol, materialtroncoarbol );
+        //HojasPino
+        var geometrycopa1 = new THREE.ConeBufferGeometry(6, 5, 32);
+        var geometrycopa2 = new THREE.ConeBufferGeometry(5, 5, 32);
+        var geometrycopa3 = new THREE.ConeBufferGeometry(3, 5, 32);
+        var materialpino = new THREE.MeshBasicMaterial({ map: hojas_texture });
+        var copa1 = new THREE.Mesh(geometrycopa1, materialpino);
+        var copa2 = new THREE.Mesh(geometrycopa2, materialpino);
+        var copa3 = new THREE.Mesh(geometrycopa3, materialpino);
+
+        copa1.position.y = 10;
+        copa2.position.y = 12;
+        copa3.position.y = 15;
+
+        copa1.position.x = tronco.position.x;
+        copa2.position.x = tronco.position.x;
+        copa3.position.x = tronco.position.x;
+
+        copa1.position.z = tronco.position.z;
+        copa2.position.z = tronco.position.z;
+        copa3.position.z = tronco.position.z;
+
+        //TroncoArbol
+        var geometrytroncoarbol = new THREE.CylinderBufferGeometry(1, 2, 20, 32);
+        var materialtroncoarbol = new THREE.MeshBasicMaterial({ map: tronco_texture });
+        var troncoarbol = new THREE.Mesh(geometrytroncoarbol, materialtroncoarbol);
+
         troncoarbol.position.y = 7;
-        troncoarbol.position.x = 25;
-        scene.add(troncoarbol);
-    })
+        troncoarbol.position.x = Math.random() * 2000 - 1000;
+        troncoarbol.position.z = Math.random() * 2000 - 1000;
 
-    //nubes
-    loader.load('img/nube.jpg', function(texture){
-         //nube 1
-        var nubepequena =new THREE.SphereBufferGeometry( 3, 32, 32 );
-        var nubegrande = new THREE.SphereBufferGeometry( 4, 32, 32 );
-        var nubemediana = new THREE.SphereBufferGeometry( 3, 32, 32 );
-        var materialnube = new THREE.MeshBasicMaterial( {map: texture} );
-        var pequena= new THREE.Mesh( nubepequena, materialnube);
-        var grande= new THREE.Mesh(  nubegrande, materialnube);
-        var mediana= new THREE.Mesh( nubemediana, materialnube);
-        pequena.position.y = 28;
-        grande.position.y = 29;
-        mediana.position.y = 28;
-        pequena.position.x = -3;
-        grande.position.x = 2;
-        mediana.position.x = 7
-        scene.add(pequena);
-        scene.add(grande);
-        scene.add(mediana);
-      })
+        //HojasArbol
+        var geometryarbol = new THREE.DodecahedronGeometry(7, 1);
+        var geometryarbol2 = new THREE.SphereGeometry(7, 10, 6, 0, 6, 3, 3.4);
+        var materialarbol = new THREE.MeshBasicMaterial({ map: hojas_texture });
+        var arbol = new THREE.Mesh(geometryarbol, materialarbol);
+        var arbol2 = new THREE.Mesh(geometryarbol2, materialarbol);
 
-  
-    scene.add(mesh);
-  
-  //////////////////////////////////////////////////////////////////////////////////////////////////////
-    let changeTexture = 0;
-    document.body.onkeypress = function(){ // Detecta si se preciona una tecla
-        if(changeTexture % 2 == 0){// La funcion se inicializa que obtiene el mod para cambiar entre varias
-                                    //texturas
-            texture = new THREE.TextureLoader().load('img/car1.jpg');
-        }else{
-            texture = new THREE.TextureLoader().load('img/car3.jpg');
-        }
-        //Los materiales se alternan al precionar una tecla y se vuelve a cargar las primitivas
-        cuerpo.material = new THREE.MeshBasicMaterial({map:texture});
-        cuerpo2.material = new THREE.MeshBasicMaterial({map:texture});
-        scene.material = new THREE.MeshBasicMaterial({map:texture});
-        piramide.material = new THREE.MeshBasicMaterial({map:texture});
-        piramide2.material = new THREE.MeshBasicMaterial({map:texture});
-        piramide3.material = new THREE.MeshBasicMaterial({map:texture});
-        renderer.render(scene,camera);
+        arbol.position.y = 16;
+        arbol.position.x = troncoarbol.position.x;
+        arbol.position.z = troncoarbol.position.z;
 
-        changeTexture += 1; // Se aumenta en uno para que se alterne.
+        arbol2.position.y = 16;
+        arbol2.position.x = arbol.position.x + 1;
+        arbol2.position.z = arbol.position.z;
+
+        //Arbol
+        groupArboles.add(arbol);
+        groupArboles.add(arbol2);
+        groupArboles.add(troncoarbol);
+        //Pino
+        groupArboles.add(tronco);
+        groupArboles.add(copa1);
+        groupArboles.add(copa2);
+        groupArboles.add(copa3);
+
     }
+    this.meshArboles.add(groupArboles);
+
+    //TexturasNubes
+    var nubes_texture = new THREE.TextureLoader().load("img/nube.jpg");
+    var groupNubes = new THREE.Group();
+    for (var i = 0; i < 500; i++) {
+        var materialnube = new THREE.MeshBasicMaterial({ map: nubes_texture });
+        var nubepequena = new THREE.SphereBufferGeometry(3, 32, 32);
+        var pequena = new THREE.Mesh(nubepequena, materialnube);
+        pequena.position.y = 40;
+        pequena.position.x = Math.random() * 2000 - 1000;
+        pequena.position.z = Math.random() * 2000 - 1000;
+
+        var nubegrande = new THREE.SphereBufferGeometry(4, 32, 32);
+        var grande = new THREE.Mesh(nubegrande, materialnube);
+        grande.position.y = 40;
+        grande.position.x = pequena.position.x - 1;
+        grande.position.z = pequena.position.z;
+
+        var nubemediana = new THREE.SphereBufferGeometry(3, 32, 32);
+        var mediana = new THREE.Mesh(nubemediana, materialnube);
+        mediana.position.y = 40;
+        mediana.position.x = grande.position.x + 5;
+        mediana.position.z = pequena.position.z;
+
+        groupNubes.add(pequena);
+        groupNubes.add(grande);
+        groupNubes.add(mediana);
+
+    }
+    scene.add(meshAuto);
+    //scene.add(meshp);
+    scene.add(meshArboles);
+    scene.add(groupNubes);
+
     //se le agrega textura al plano y la imagen se repita en 4x4
-    var texture = new THREE.TextureLoader().load( "img/sesped.jpg" );
+    var texture = new THREE.TextureLoader().load("img/sesped2.jpg");
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set( 4, 4 );
-    let planeGeometry = new THREE.PlaneGeometry(200, 200); //Creacion del plano y su tamano 
-    let groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map:texture });
+    texture.repeat.set(40, 40);
+    let planeGeometry = new THREE.PlaneGeometry(2000, 2000); //Creacion del plano y su tamano 
+    let groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture });
     planeGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2)); //Matrix de 4 ejes
     let plane = new THREE.Mesh(planeGeometry, groundMaterial);
 
@@ -207,7 +211,6 @@ loader.load('img/hojas.jpg', function(texture){
             color: '#3498DB',
             shading: THREE.FlatShading
         });
-        console.log(groundMaterialFormas);
         return groundMaterialFormas;
     }
 
@@ -216,45 +219,89 @@ loader.load('img/hojas.jpg', function(texture){
             color: Math.random() * 0xffff00,
             shading: THREE.FlatShading
         });
-        console.log(groundMaterialFormas);
         return groundMaterialFormas;
     }
-    
+    function color2() { //Funcion para el cambio de material con las formas
+        var groundMaterialFormas = new THREE.MeshPhongMaterial({
+            color: Math.random() * 0xffff00,
+            tranparent: true,
+            opacity: 0
+        });
+        return groundMaterialFormas;
+    }
+
+    var clock = new THREE.Clock();
+
     function loop() {
         controls.update(); //Actualizacion de los controles de camara
         requestAnimationFrame(loop);
 
-        if ( keyboard.pressed("W") ){
-            mesh.position.x += 0.1;
+        var delta = clock.getDelta(); // seconds.
+        var moveDistance = 200 * delta; // 200 pixels per second
+        var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
+
+        if (keyboard.pressed("C")) {
+            camera.position.y = 30;
+            camera.position.x = -30;
+            camera.position.z = 5;
+            meshAuto.add(camera);
+
+        }
+        if (keyboard.pressed("X")) {
+            camera.position.y = 10;
+            camera.position.x = 15;
+            camera.position.z = 0;
+            meshAuto.add(camera);
+
+        }
+
+        if (keyboard.pressed("B")) {
+            camera.position.y = 12;
+            camera.position.x = -14;
+            camera.position.z = 4;
+            meshAuto.add(camera);
+
+        }
+        if (keyboard.pressed("v")) {
+            camera.position.set(0, 150, 400);
+            scene.add(camera);
+        }
+
+        // move forwards/backwards/left/right
+        if (keyboard.pressed("W")) {
+            meshAuto.translateX(+moveDistance);
             for (var i = 0, l = groupllantas.children.length; i < l; i++) {
                 var llantas = groupllantas.children[i];
                 llantas.rotation.z -= 0.009;
             }
         }
-        if ( keyboard.pressed("S") ){
-            mesh.position.x -= 0.1;
+        if (keyboard.pressed("S")) {
+            meshAuto.translateX(-moveDistance);
             for (var i = 0, l = groupllantas.children.length; i < l; i++) {
                 var llantas = groupllantas.children[i];
                 llantas.rotation.z += 0.009;
             }
         }
-        if ( keyboard.pressed("A") ){
+        if (keyboard.pressed("A")) {
+            meshAuto.rotateOnAxis(new THREE.Vector3(0, 1, 0), rotateAngle);
             for (var i = 0, l = groupllantas.children.length; i < l; i++) {
                 var llantas = groupllantas.children[i];
                 llantas.rotation.y += 0.009;
             }
-        }
-        if ( keyboard.pressed("D") ){
+        } else if (keyboard.pressed("D")) {
+            meshAuto.rotateOnAxis(new THREE.Vector3(0, 1, 0), -rotateAngle);
             for (var i = 0, l = groupllantas.children.length; i < l; i++) {
                 var llantas = groupllantas.children[i];
                 llantas.rotation.y -= 0.009;
             }
+        } else {
+            for (var i = 0, l = groupllantas.children.length; i < l; i++) {
+                var llantas = groupllantas.children[i];
+                llantas.rotation.y = 0;
+            }
         }
-		
-     //   mesh.position.x += 0.1;
-        //camera.lookAt(mesh.position);
         renderer.render(scene, camera);
-    
+
     }
     loop();
 })();
